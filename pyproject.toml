@@ -1,0 +1,29 @@
+[project]
+name = "velo-ia"
+version = "0.1.0"
+description = "Vélo & IA Générative — atelier pédagogique sur le coût énergétique de l'IA générative"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "django>=5.1,<5.2",
+]
+
+[project.optional-dependencies]
+# Capteur GPIO réel — uniquement sur Raspberry Pi (§7, §13 priorité 8).
+rpi = ["RPi.GPIO>=0.7.1"]
+# Provider LLM réel optionnel (§9). Décommenter / installer si besoin en atelier.
+llm = ["anthropic>=0.40"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-django>=4.9",
+]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+python_files = ["test_*.py", "tests.py"]
+testpaths = ["tests"]
+
+[tool.uv]
+package = false

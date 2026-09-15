@@ -1,0 +1,82 @@
+[
+  {
+    "model": "game.energyscenario",
+    "pk": 1,
+    "fields": {
+      "provider": "Anthropic",
+      "model_name": "Claude Haiku 4.5",
+      "model_family": "Claude",
+      "model_size_category": "petit",
+      "output_description": "Écrire le texte d'un email",
+      "output_tokens": 250,
+      "energy_mwh": 28.1,
+      "source": "Ecologits",
+      "prompt_template": null,
+      "active": true
+    }
+  },
+  {
+    "model": "game.energyscenario",
+    "pk": 2,
+    "fields": {
+      "provider": "Anthropic",
+      "model_name": "Claude Haiku 4.5",
+      "model_family": "Claude",
+      "model_size_category": "petit",
+      "output_description": "Résumer un paragraphe en 3 phrases",
+      "output_tokens": 90,
+      "energy_mwh": 11.4,
+      "source": "Ecologits (valeur factice de démo)",
+      "prompt_template": null,
+      "active": true
+    }
+  },
+  {
+    "model": "game.energyscenario",
+    "pk": 3,
+    "fields": {
+      "provider": "Anthropic",
+      "model_name": "Claude Sonnet 4.5",
+      "model_family": "Claude",
+      "model_size_category": "moyen",
+      "output_description": "Rédiger un article de blog structuré",
+      "output_tokens": 900,
+      "energy_mwh": 168.0,
+      "source": "Ecologits (valeur factice de démo)",
+      "prompt_template": null,
+      "active": true
+    }
+  },
+  {
+    "model": "game.energyscenario",
+    "pk": 4,
+    "fields": {
+      "provider": "OpenAI",
+      "model_name": "GPT-4o",
+      "model_family": "GPT",
+      "model_size_category": "grand",
+      "output_description": "Générer une longue réponse technique détaillée",
+      "output_tokens": 1500,
+      "energy_mwh": 420.0,
+      "source": "Ecologits (valeur factice de démo)",
+      "prompt_template": null,
+      "active": true
+    }
+  },
+  {
+    "model": "game.energyscenario",
+    "pk": 5,
+    "fields": {
+      "provider": "Mistral",
+      "model_name": "Mistral Small",
+      "model_family": "Mistral",
+      "model_size_category": "petit",
+      "output_description": "Répondre à une question factuelle courte",
+      "output_tokens": 40,
+      "energy_mwh": 5.2,
+      "source": "Ecologits (valeur factice de démo)",
+      "prompt_template": null,
+      "active": true
+    }
+  }
+]

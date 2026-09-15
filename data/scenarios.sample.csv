@@ -1,0 +1,6 @@
+provider,model_name,output_description,output_tokens,energy_mwh,model_family,model_size_category,source,prompt_template,active
+Anthropic,Claude Haiku 4.5,Écrire le texte d'un email,250,28.1,Claude,petit,Ecologits,,true
+Anthropic,Claude Haiku 4.5,Résumer un paragraphe en 3 phrases,90,11.4,Claude,petit,Ecologits (démo),,true
+Anthropic,Claude Sonnet 4.5,Rédiger un article de blog structuré,900,168.0,Claude,moyen,Ecologits (démo),,true
+OpenAI,GPT-4o,Générer une longue réponse technique détaillée,1500,420.0,GPT,grand,Ecologits (démo),,true
+Mistral,Mistral Small,Répondre à une question factuelle courte,40,5.2,Mistral,petit,Ecologits (démo),,true

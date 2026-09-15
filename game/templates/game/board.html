@@ -1,0 +1,17 @@
+{% extends "game/base.html" %}
+{% load static %}
+{% block title %}Animateur — Vélo &amp; IA Générative{% endblock %}
+{% block body_class %}board{% endblock %}
+{% block scripts %}
+  <script>
+    window.GAME_CONFIG = {
+      bikeCheckRevolutions: {{ game_cfg.BIKE_CHECK_REVOLUTIONS }},
+      teamSelectionSeconds: {{ game_cfg.TEAM_SELECTION_SECONDS }},
+      preparationSeconds: {{ game_cfg.PREPARATION_SECONDS }},
+      cyclingSeconds: {{ game_cfg.CYCLING_SECONDS }},
+      bikeSensor: "{{ game_cfg.BIKE_SENSOR }}"
+    };
+  </script>
+  <script src="{% static 'game/common.js' %}"></script>
+  <script src="{% static 'game/board.js' %}"></script>
+{% endblock %}

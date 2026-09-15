@@ -1,0 +1,22 @@
+{% load static %}
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Vélo &amp; IA Générative{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'game/style.css' %}">
+</head>
+<body class="{% block body_class %}{% endblock %}">
+  <div id="app">
+    <p class="loading">Chargement…</p>
+  </div>
+  <footer class="disclaimer" id="disclaimer">
+    Estimations pédagogiques (source Ecologits) — pas une mesure réelle de datacenter.
+  </footer>
+  <script>
+    window.CSRF_TOKEN = "{{ csrf_token }}";
+  </script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

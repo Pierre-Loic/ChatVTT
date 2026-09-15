@@ -1,0 +1,8 @@
+{% extends "game/base.html" %}
+{% load static %}
+{% block title %}Écran public — Vélo &amp; IA Générative{% endblock %}
+{% block body_class %}display{% endblock %}
+{% block scripts %}
+  <script src="{% static 'game/common.js' %}"></script>
+  <script src="{% static 'game/display.js' %}"></script>
+{% endblock %}

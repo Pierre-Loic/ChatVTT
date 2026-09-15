@@ -1,0 +1,185 @@
+:root {
+  --bg: #0f1220;
+  --card: #1a1f35;
+  --card-2: #232a45;
+  --ink: #eef1f8;
+  --muted: #9aa3c0;
+  --accent: #5b8cff;
+  --accent-2: #7b61ff;
+  --good: #37d67a;
+  --warn: #ffb020;
+  --bad: #ff5c5c;
+  --radius: 14px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: radial-gradient(1200px 600px at 20% -10%, #23305c 0%, var(--bg) 60%);
+  color: var(--ink);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+}
+
+#app { max-width: 960px; margin: 0 auto; padding: 24px 16px 96px; }
+.loading { text-align: center; color: var(--muted); padding: 60px 0; }
+
+h1 { font-size: 1.6rem; margin: 0 0 12px; }
+h2 { margin: 4px 0; }
+h3 { color: var(--muted); font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.06em; }
+
+.card {
+  background: var(--card);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 16px;
+}
+.center { text-align: center; }
+
+/* Header animateur */
+.board-header {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.board-header-left { display: flex; gap: 8px; align-items: center; flex: 1; flex-wrap: wrap; }
+.round-badge, .state-badge {
+  background: var(--card-2); padding: 6px 12px; border-radius: 999px; font-size: 0.85rem;
+}
+.state-badge { color: var(--muted); font-family: ui-monospace, monospace; }
+
+/* Boutons */
+.btn {
+  appearance: none; border: 0; border-radius: 10px; padding: 12px 18px;
+  font-size: 1rem; font-weight: 600; cursor: pointer; color: #fff;
+  background: var(--card-2); transition: transform .05s ease, filter .15s ease;
+}
+.btn:hover { filter: brightness(1.12); }
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); margin-top: 16px; }
+.btn-ghost { background: transparent; border: 1px solid rgba(255,255,255,0.18); }
+.btn-reset { margin-left: auto; }
+.btn-pedal { background: var(--card-2); min-width: 72px; font-size: 1.1rem; }
+.pedal-buttons { display: flex; gap: 10px; justify-content: center; margin: 16px 0; }
+
+/* Formulaire config */
+.config-form label { display: block; margin: 14px 0 4px; color: var(--muted); font-size: 0.9rem; }
+.config-form input, .config-form textarea {
+  width: 100%; background: var(--bg); border: 1px solid rgba(255,255,255,0.14);
+  color: var(--ink); border-radius: 8px; padding: 10px; font: inherit;
+}
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.hint { color: var(--muted); font-size: 0.9rem; }
+.callout {
+  background: rgba(255,176,32,0.12); border: 1px solid rgba(255,176,32,0.35);
+  border-radius: 10px; padding: 12px; margin: 14px 0; color: #ffe0a8;
+}
+.warn { color: var(--warn); font-weight: 600; }
+.hidden { display: none; }
+
+/* Scoreboard */
+.scoreboard { display: flex; gap: 10px; }
+.team-score {
+  background: var(--card-2); border-radius: 10px; padding: 8px 14px; text-align: center;
+  border: 2px solid transparent; min-width: 90px;
+}
+.team-score.active { border-color: var(--accent); }
+.team-score-name { display: block; font-size: 0.8rem; color: var(--muted); }
+.team-score-value { font-size: 1.5rem; font-weight: 800; }
+
+/* Roues */
+.wheels { display: flex; gap: 16px; justify-content: center; margin: 20px 0; flex-wrap: wrap; }
+.wheel {
+  background: var(--card-2); border-radius: 12px; padding: 18px 20px; min-width: 200px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.wheel-label { display: block; color: var(--muted); font-size: 0.8rem; text-transform: uppercase; }
+.wheel strong { font-size: 1.15rem; }
+.wheel.spin { animation: wheelspin .6s cubic-bezier(.2,.8,.2,1) infinite alternate; }
+@keyframes wheelspin { from { transform: translateY(-4px); } to { transform: translateY(4px); } }
+
+/* Scenario card */
+.scenario-card {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 6px 18px;
+  background: var(--card-2); border-radius: 12px; padding: 16px; margin: 12px 0; text-align: left;
+}
+.kv { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; }
+.kv span { color: var(--muted); }
+
+/* Chiffres */
+.big-number { font-size: 3rem; font-weight: 800; margin: 10px 0; }
+.countdown { font-size: 2.4rem; font-weight: 800; color: var(--accent); }
+.countdown.big { font-size: 5rem; }
+
+/* Metrics cycling */
+.cycling-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.chrono { font-size: 2.6rem; font-weight: 800; color: var(--accent); }
+.cycling-metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 14px 0; }
+.metric { background: var(--card-2); border-radius: 10px; padding: 10px; text-align: center; }
+.metric-label { display: block; font-size: 0.75rem; color: var(--muted); }
+.metric-value { font-size: 1.35rem; font-weight: 800; }
+
+/* Gauge */
+.gauge {
+  position: relative; height: 26px; background: var(--card-2); border-radius: 999px;
+  overflow: hidden; margin: 14px 0;
+}
+.gauge-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width .3s ease; }
+.gauge-fill.full { background: linear-gradient(90deg, var(--good), #7CFFB2); }
+.gauge-tick { position: absolute; top: 0; bottom: 0; width: 2px; background: rgba(255,255,255,0.35); }
+
+/* Runner grid */
+.runner-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin: 16px 0; }
+.btn-runner { background: var(--card-2); }
+.btn-runner.selected { background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+
+/* Result */
+.tier-badge { display: inline-block; padding: 6px 16px; border-radius: 999px; font-weight: 700; margin: 8px 0; }
+.tier-0 { background: var(--card-2); color: var(--muted); }
+.tier-25 { background: rgba(91,140,255,0.25); }
+.tier-50 { background: rgba(123,97,255,0.3); }
+.tier-75 { background: rgba(55,214,122,0.25); }
+.tier-100 { background: linear-gradient(135deg, var(--good), #7CFFB2); color: #062; }
+.result-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 18px; margin: 14px 0; }
+.gen pre { white-space: pre-wrap; background: var(--bg); padding: 12px; border-radius: 8px; text-align: left; overflow-x: auto; }
+
+/* Table */
+.table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.92rem; }
+.table th, .table td { text-align: left; padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.table th { color: var(--muted); font-weight: 600; }
+
+/* Disclaimer footer (§16) */
+.disclaimer {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(10,12,22,0.92); border-top: 1px solid rgba(255,255,255,0.08);
+  color: var(--muted); font-size: 0.78rem; text-align: center; padding: 8px 12px;
+}
+
+/* Flash */
+.flash {
+  position: fixed; top: 16px; left: 50%; transform: translateX(-50%) translateY(-20px);
+  background: var(--bad); color: #fff; padding: 10px 18px; border-radius: 10px;
+  opacity: 0; transition: all .25s ease; z-index: 50; max-width: 90vw;
+}
+.flash.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ---------- Écran public ---------- */
+body.display #app { max-width: 1200px; text-align: center; }
+.d-head { color: var(--muted); font-size: 1.1rem; margin-bottom: 10px; }
+body.display .scoreboard { justify-content: center; margin-bottom: 24px; }
+.d-big { font-size: clamp(2rem, 6vw, 4rem); font-weight: 800; margin: 18px 0; }
+.d-count { font-size: clamp(3rem, 14vw, 9rem); color: var(--accent); }
+.d-count.huge { font-size: clamp(5rem, 26vw, 18rem); }
+.d-pedal { color: var(--good); letter-spacing: 0.05em; }
+.d-sub { font-size: clamp(1rem, 2.6vw, 1.6rem); color: var(--muted); }
+.d-metrics { display: flex; justify-content: center; gap: 40px; margin: 20px 0; }
+.d-metrics span { display: block; color: var(--muted); }
+.d-metrics b { font-size: clamp(2rem, 6vw, 3.5rem); }
+body.display .gauge { height: 40px; max-width: 900px; margin: 20px auto; }
+
+@media (max-width: 640px) {
+  .two-col, .scenario-card, .result-grid { grid-template-columns: 1fr; }
+  .cycling-metrics { grid-template-columns: repeat(2, 1fr); }
+  .d-metrics { gap: 20px; }
+}
