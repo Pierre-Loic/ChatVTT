@@ -1,8 +1,8 @@
 """BikeSensor — abstraction du capteur vélo (§7 SPEC.md).
 
-Interface commune + implémentation simulée (obligatoire, sans RPi.GPIO).
+Interface commune + implémentation simulée (obligatoire, sans dépendance GPIO).
 L'implémentation GPIO réelle vit dans ``game.gpio_bike_sensor`` (import
-paresseux de ``RPi.GPIO``) pour que ce module reste importable partout.
+paresseux de ``lgpio``) pour que ce module reste importable partout.
 """
 
 from __future__ import annotations

@@ -10,7 +10,9 @@ dependencies = [
 
 [project.optional-dependencies]
 # Capteur GPIO réel — uniquement sur Raspberry Pi (§7, §13 priorité 8).
-rpi = ["RPi.GPIO>=0.7.1"]
+# lgpio = accès direct /dev/gpiochipN ; fonctionne sur tous les Pi (RPi.GPIO échoue sur Pi 1 récents / Pi 5).
+# Compilation sur le Pi : sudo apt install swig python3-dev build-essential
+rpi = ["lgpio>=0.2.2"]
 # Provider LLM réel optionnel (§9). Décommenter / installer si besoin en atelier.
 llm = ["anthropic>=0.40"]
 
