@@ -218,5 +218,3 @@ __marimo__/
 .streamlit/secrets.toml
 staticfiles/
 
-# lgpio (capteur vélo GPIO) : fichiers de notification créés dans le cwd
-.lgd-nfy*

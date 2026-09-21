@@ -85,7 +85,7 @@ Format CSV documenté dans `CONFIG_NOTES.md` et en tête de la commande.
 
 ```bash
 uv sync --extra rpi
-GAME_BIKE_SENSOR=gpio GAME_GPIO_PIN=17 uv run python manage.py runserver 0.0.0.0:8000
+GAME_BIKE_SENSOR=gpio GAME_GPIO_PIN=27 uv run python manage.py runserver 0.0.0.0:8000
 ```
 
 ## LLM réel (optionnel)

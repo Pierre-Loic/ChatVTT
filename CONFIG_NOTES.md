@@ -14,7 +14,7 @@ surchargeables par variables d'environnement.
 | Expiration des 30 s de sélection du coureur | `random` : tirage automatique parmi les joueurs restants de l'équipe active. | `GAME["TEAM_SELECTION_ON_TIMEOUT"]` = `"random"` \| `"host"` |
 | LLM réel pendant l'atelier | Non par défaut : provider **simulé** (aucun appel réseau). Provider réel Anthropic optionnel. | `GAME["LLM_PROVIDER"]` = `"simulated"` \| `"anthropic"` ; `pip`/`uv` extra `llm` ; `ANTHROPIC_API_KEY` |
 | `prompt_template` par scénario | Laissé `NULL`. Le provider réel retombe alors sur `output_description`. | Champ `EnergyScenario.prompt_template` (admin / CSV) |
-| Capteur exact sur le Raspberry Pi | Développé entièrement contre l'interface `core.bike_sensor.BikeSensor`. Impl. simulée par défaut. Impl. GPIO = prototype (pin BCM 17, debounce 40 ms). | `GAME["BIKE_SENSOR"]` = `"simulated"` \| `"gpio"` ; `GAME["GPIO_PIN"]`, `GAME["GPIO_DEBOUNCE_MS"]` ; extra `rpi` |
+| Capteur exact sur le Raspberry Pi | Développé entièrement contre l'interface `core.bike_sensor.BikeSensor`. Impl. simulée par défaut. Impl. GPIO = prototype (pin BCM 27, pull-up, front descendant ; lecture par polling car `add_event_detect` échoue sur le Pi de l'atelier ; debounce 40 ms). | `GAME["BIKE_SENSOR"]` = `"simulated"` \| `"gpio"` ; `GAME["GPIO_PIN"]`, `GAME["GPIO_DEBOUNCE_MS"]` ; extra `rpi` |
 | Design / résolution d'écran | Templates simples et responsives (thème sombre). Écran animateur `/` + écran public `/display/`. | `game/templates/`, `static/game/` |
 | Seuil de validation du vélo (BIKE_CHECK) | 5 tours. | `GAME["BIKE_CHECK_REVOLUTIONS"]` |
 | Durées des phases | sélection 30 s / préparation 10 s / pédalage 60 s. | `GAME["TEAM_SELECTION_SECONDS"]`, `GAME["PREPARATION_SECONDS"]`, `GAME["CYCLING_SECONDS"]` |

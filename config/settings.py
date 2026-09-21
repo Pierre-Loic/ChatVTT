@@ -117,7 +117,7 @@ GAME = {
     # Provider LLM : "simulated" (défaut, §9/§10) ou "anthropic" (réel, §12).
     "LLM_PROVIDER": os.environ.get("GAME_LLM_PROVIDER", "simulated"),
     "LLM_MODEL": os.environ.get("GAME_LLM_MODEL", "claude-haiku-4-5-20251001"),
-    # Pin GPIO du capteur vélo réel (BCM) — prototype, à confirmer (§12).
-    "GPIO_PIN": int(os.environ.get("GAME_GPIO_PIN", "17")),
+    # Pin GPIO du capteur vélo réel (BCM 27 = broche physique 13) — prototype (§12).
+    "GPIO_PIN": int(os.environ.get("GAME_GPIO_PIN", "27")),
     "GPIO_DEBOUNCE_MS": int(os.environ.get("GAME_GPIO_DEBOUNCE_MS", "40")),
 }
