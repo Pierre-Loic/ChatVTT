@@ -18,12 +18,51 @@ Points durs traités (§11) :
 from __future__ import annotations
 
 import logging
+import os
+import struct
 import threading
 import time
 
 POLL_INTERVAL_S = 0.001
 
 logger = logging.getLogger(__name__)
+
+DEVICE_TREE_REVISION = "/proc/device-tree/system/linux,revision"
+
+# Codes de révision « ancien format » (Pi 1 / CM1) → équivalent « nouveau
+# format » (bit 23 à 1 : mémoire, fabricant, type de carte, révision).
+# rpi-lgpio refuse les anciens codes ; on lui fournit l'équivalent via la
+# variable d'environnement RPI_LGPIO_REVISION, qu'il lit en priorité.
+_OLD_TO_NEW_REVISION = {
+    0x0002: 0x800010, 0x0003: 0x800010,                     # B 1.0, 256 Mo
+    0x0004: 0x800012, 0x0005: 0x800012, 0x0006: 0x800012,   # B 2.0, 256 Mo
+    0x0007: 0x800002, 0x0008: 0x800002, 0x0009: 0x800002,   # A 2.0, 256 Mo
+    0x000D: 0x900012, 0x000E: 0x900012, 0x000F: 0x900012,   # B 2.0, 512 Mo
+    0x0010: 0x900032, 0x0013: 0x900032,                     # B+ 1.2, 512 Mo
+    0x0011: 0x900061, 0x0014: 0x900061,                     # CM1, 512 Mo
+    0x0012: 0x800021, 0x0015: 0x900021,                     # A+ 1.1
+}
+_DEFAULT_NEW_REVISION = 0x900032  # B+ : connecteur 40 broches, BCM2835
+
+
+def _ensure_lgpio_revision(path: str = DEVICE_TREE_REVISION) -> None:
+    """Pour rpi-lgpio sur un Pi à code de révision ancien format : fixe
+    ``RPI_LGPIO_REVISION`` à l'équivalent nouveau format. Sans effet sinon."""
+    if "RPI_LGPIO_REVISION" in os.environ:
+        return
+    try:
+        with open(path, "rb") as f:
+            revision = struct.unpack(">I", f.read(4))[0]
+    except (OSError, struct.error):
+        return  # pas un Pi, ou device-tree illisible : on laisse le module décider
+    if revision == 0 or revision >> 23 & 1:
+        return  # nouveau format : rien à faire
+    # Bits 24-25 : garantie annulée / surtension — sans incidence ici.
+    new = _OLD_TO_NEW_REVISION.get(revision & 0xFFFF, _DEFAULT_NEW_REVISION)
+    os.environ["RPI_LGPIO_REVISION"] = f"{new:x}"
+    logger.info(
+        "Code de révision ancien format 0x%x : RPI_LGPIO_REVISION=%x", revision, new
+    )
 
 
 class GpioBikeSensor:
@@ -46,12 +85,18 @@ class GpioBikeSensor:
                 self._running = True
             return
 
+        _ensure_lgpio_revision()
         try:
             import RPi.GPIO as GPIO  # import paresseux — dépendance optionnelle
         except ImportError as exc:
             raise RuntimeError(
-                "Module RPi.GPIO introuvable dans cet environnement Python : "
-                "lancer `uv sync --extra rpi` (installe rpi-lgpio)."
+                "Module RPi.GPIO introuvable dans cet environnement Python "
+                "(voir README, section « Matériel réel »)."
+            ) from exc
+        except Exception as exc:  # ex. rpi-lgpio : « old-style revision codes »
+            raise RuntimeError(
+                f"Module RPi.GPIO inutilisable sur ce Raspberry Pi : {exc} "
+                "(voir README, section « Matériel réel »)."
             ) from exc
 
         try:

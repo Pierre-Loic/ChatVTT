@@ -148,3 +148,39 @@ def test_start_failure_raises_clear_error(monkeypatch):
     with pytest.raises(RuntimeError, match="broche BCM 27"):
         s.start()
     assert gpio.calls[-1] == "cleanup:27"
+
+
+# --- Code de révision ancien format (Pi 1) pour rpi-lgpio ------------------ #
+
+
+def _write_revision(tmp_path, value: int):
+    p = tmp_path / "linux,revision"
+    p.write_bytes(value.to_bytes(4, "big"))
+    return str(p)
+
+
+@pytest.mark.parametrize(
+    "old, expected",
+    [(0x0010, "900032"), (0x000E, "900012"), (0x0012, "800021"),
+     (0x1000010, "900032"),  # bit « surtension » ignoré
+     (0x00FF, "900032")],    # code inconnu : B+ par défaut
+)
+def test_old_style_revision_is_translated(monkeypatch, tmp_path, old, expected):
+    monkeypatch.delenv("RPI_LGPIO_REVISION", raising=False)
+    gpio_bike_sensor._ensure_lgpio_revision(_write_revision(tmp_path, old))
+    assert gpio_bike_sensor.os.environ["RPI_LGPIO_REVISION"] == expected
+
+
+def test_new_style_revision_left_alone(monkeypatch, tmp_path):
+    monkeypatch.delenv("RPI_LGPIO_REVISION", raising=False)
+    gpio_bike_sensor._ensure_lgpio_revision(_write_revision(tmp_path, 0xA02082))
+    assert "RPI_LGPIO_REVISION" not in gpio_bike_sensor.os.environ
+
+
+def test_existing_override_and_missing_file_left_alone(monkeypatch, tmp_path):
+    monkeypatch.setenv("RPI_LGPIO_REVISION", "abc")
+    gpio_bike_sensor._ensure_lgpio_revision(_write_revision(tmp_path, 0x0010))
+    assert gpio_bike_sensor.os.environ["RPI_LGPIO_REVISION"] == "abc"
+    monkeypatch.delenv("RPI_LGPIO_REVISION")
+    gpio_bike_sensor._ensure_lgpio_revision(str(tmp_path / "absent"))
+    assert "RPI_LGPIO_REVISION" not in gpio_bike_sensor.os.environ

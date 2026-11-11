@@ -92,6 +92,16 @@ GAME_BIKE_SENSOR=gpio GAME_GPIO_PIN=27 uv run python manage.py runserver 0.0.0.0
 L'extra `rpi` installe `rpi-lgpio`, qui fournit le module `RPi.GPIO` (même API
 que le paquet apt `python3-rpi-lgpio` de Raspberry Pi OS). Ne pas installer
 l'ancien `RPi.GPIO` 0.7.1 de PyPI : il ne fonctionne plus sur les noyaux récents.
+**Erreur « This module does not understand old-style revision codes »** :
+le Pi annonce un code de révision ancien format (Pi 1 / CM1), que rpi-lgpio
+(paquet PyPI comme paquet apt `python3-rpi-lgpio`) refuse. L'application le
+gère seule : `game/gpio_bike_sensor.py` fixe `RPI_LGPIO_REVISION` à l'équivalent
+nouveau format avant l'import. Pour un script hors application :
+
+```bash
+RPI_LGPIO_REVISION=900032 python3 mon_script.py   # 900032 = Pi 1 Model B+
+```
+
 Au démarrage, le journal affiche `Capteur GPIO démarré (… module …)` ; toute
 erreur de lecture de la broche y est aussi signalée.
 

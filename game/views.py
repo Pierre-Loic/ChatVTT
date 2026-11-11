@@ -7,6 +7,7 @@ toute action hors contexte est rejetée en 409 (§5).
 from __future__ import annotations
 
 import json
+import logging
 
 from django.conf import settings
 from django.http import HttpRequest, HttpResponse, JsonResponse
@@ -17,6 +18,8 @@ from core.state_machine import GameState, InvalidAction, InvalidTransition
 
 from .models import EnergyScenario
 from .services import get_service
+
+logger = logging.getLogger(__name__)
 
 # Actions animateur autorisées et méthode correspondante du manager (§5).
 _ACTIONS = {
@@ -150,6 +153,9 @@ def api_action(request: HttpRequest, name: str) -> JsonResponse:
         method()
     except (InvalidAction, InvalidTransition, LookupError) as exc:
         return JsonResponse({"error": str(exc)}, status=409)
+    except RuntimeError as exc:  # matériel indisponible (capteur GPIO…)
+        logger.exception("Action %s : erreur matérielle", name)
+        return JsonResponse({"error": str(exc)}, status=503)
     service.sync()
     return JsonResponse(m.snapshot())
 
