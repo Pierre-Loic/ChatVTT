@@ -10,7 +10,10 @@ dependencies = [
 
 [project.optional-dependencies]
 # Capteur GPIO réel — uniquement sur Raspberry Pi (§7, §13 priorité 8).
-rpi = ["RPi.GPIO>=0.7.1"]
+# rpi-lgpio fournit le module `RPi.GPIO` (même API) et fonctionne sur les
+# noyaux récents (Raspberry Pi OS Bookworm/Trixie, Pi 5). L'ancien paquet
+# RPi.GPIO 0.7.1 de PyPI n'est plus maintenu et ne lit plus le GPIO.
+rpi = ["rpi-lgpio>=0.6"]
 # Provider LLM réel optionnel (§9). Décommenter / installer si besoin en atelier.
 llm = ["anthropic>=0.40"]
 

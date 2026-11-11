@@ -17,10 +17,13 @@ Points durs traités (§11) :
 
 from __future__ import annotations
 
+import logging
 import threading
 import time
 
 POLL_INTERVAL_S = 0.001
+
+logger = logging.getLogger(__name__)
 
 
 class GpioBikeSensor:
@@ -43,7 +46,13 @@ class GpioBikeSensor:
                 self._running = True
             return
 
-        import RPi.GPIO as GPIO  # import paresseux — dépendance optionnelle
+        try:
+            import RPi.GPIO as GPIO  # import paresseux — dépendance optionnelle
+        except ImportError as exc:
+            raise RuntimeError(
+                "Module RPi.GPIO introuvable dans cet environnement Python : "
+                "lancer `uv sync --extra rpi` (installe rpi-lgpio)."
+            ) from exc
 
         try:
             GPIO.setmode(GPIO.BCM)
@@ -54,6 +63,10 @@ class GpioBikeSensor:
             raise RuntimeError(
                 f"Capteur GPIO indisponible (broche BCM {self._pin}) : {exc}"
             ) from exc
+        logger.info(
+            "Capteur GPIO démarré (broche BCM %s, niveau initial %s, module %s)",
+            self._pin, self._prev_level, getattr(GPIO, "__file__", "?"),
+        )
 
         self._gpio = GPIO
         self._stop_event.clear()
@@ -99,11 +112,18 @@ class GpioBikeSensor:
             pass
 
     def _poll_loop(self) -> None:
+        failing = False
         while not self._stop_event.is_set():
             try:
                 self._poll_once()
+                if failing:
+                    logger.warning("Lecture GPIO broche %s rétablie", self._pin)
+                    failing = False
             except Exception:  # noqa: BLE001 — signal perdu : on fige, sans crash
-                pass
+                # Journalisé une seule fois par panne, pour ne pas inonder les logs.
+                if not failing:
+                    logger.exception("Échec de lecture GPIO broche %s", self._pin)
+                    failing = True
             self._stop_event.wait(POLL_INTERVAL_S)
 
     def _poll_once(self) -> None:

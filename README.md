@@ -84,9 +84,16 @@ Format CSV documenté dans `CONFIG_NOTES.md` et en tête de la commande.
 ## Matériel réel (Raspberry Pi)
 
 ```bash
+sudo apt install swig liblgpio-dev   # pour compiler lgpio (pas de wheel Python 3.13)
 uv sync --extra rpi
 GAME_BIKE_SENSOR=gpio GAME_GPIO_PIN=27 uv run python manage.py runserver 0.0.0.0:8000
 ```
+
+L'extra `rpi` installe `rpi-lgpio`, qui fournit le module `RPi.GPIO` (même API
+que le paquet apt `python3-rpi-lgpio` de Raspberry Pi OS). Ne pas installer
+l'ancien `RPi.GPIO` 0.7.1 de PyPI : il ne fonctionne plus sur les noyaux récents.
+Au démarrage, le journal affiche `Capteur GPIO démarré (… module …)` ; toute
+erreur de lecture de la broche y est aussi signalée.
 
 ## LLM réel (optionnel)
 

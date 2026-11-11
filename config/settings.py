@@ -121,3 +121,14 @@ GAME = {
     "GPIO_PIN": int(os.environ.get("GAME_GPIO_PIN", "27")),
     "GPIO_DEBOUNCE_MS": int(os.environ.get("GAME_GPIO_DEBOUNCE_MS", "40")),
 }
+
+# Journalisation : affiche dans la console les messages du jeu (capteur GPIO…).
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {"console": {"class": "logging.StreamHandler"}},
+    "loggers": {
+        "game": {"handlers": ["console"], "level": "INFO"},
+        "core": {"handlers": ["console"], "level": "INFO"},
+    },
+}
